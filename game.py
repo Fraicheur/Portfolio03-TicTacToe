@@ -17,6 +17,7 @@ class Game:
         self.game_over = False
         self.nb_players = None
         self.winner = None
+        self.winning_positions = None
 
     def choose_number_of_players(self) -> int:
         self.nb_players = input("Please indicate the number of players (0, 1 or 2): ")
@@ -41,15 +42,15 @@ class Game:
         self.played_positions[chosen_position] = self.players_symbols[current_player_id]
         index_of_chosen_position = self.free_positions.index(chosen_position)
         del self.free_positions[index_of_chosen_position]
-        print(f"Free positions: {self.free_positions}")
+        #debug print(f"Free positions: {self.free_positions}")
 
     @staticmethod
     def next_player(previous_player_index: int) -> int:
         if previous_player_index == 0:
-            print("Previous player was 0, next player is 1.")
+            #debug print("Previous player was 0, next player is 1.")
             return 1
         elif previous_player_index == 1:
-            print("Previous player was 1, next player is 0.")
+            #debug print("Previous player was 1, next player is 0.")
             return 0
         else:
             print("There was an error.")
@@ -57,3 +58,91 @@ class Game:
 
     def greet(self) -> None:
         pass
+
+    def detect_win(self) -> bool or int:
+        # 123 == X
+        if self.played_positions['1'] == 'X' and self.played_positions['2'] == 'X' and self.played_positions['3'] == 'X':
+            self.winner = 0
+            self.winning_positions = "123"
+        # 456 == X
+        if self.played_positions['4'] == 'X' and self.played_positions['5'] == 'X' and self.played_positions['6'] == 'X':
+            self.winner = 0
+            self.winning_positions = "456"
+        # 789 == X
+        if self.played_positions['7'] == 'X' and self.played_positions['8'] == 'X' and self.played_positions['9'] == 'X':
+            self.winner = 0
+            self.winning_positions = "789"
+        # 147 == X
+        if self.played_positions['1'] == 'X' and self.played_positions['4'] == 'X' and self.played_positions['7'] == 'X':
+            self.winner = 0
+            self.winning_positions = "147"
+        # 258 == X
+        if self.played_positions['2'] == 'X' and self.played_positions['5'] == 'X' and self.played_positions['8'] == 'X':
+            self.winner = 0
+            self.winning_positions = "258"
+        # 369 == X
+        if self.played_positions['3'] == 'X' and self.played_positions['6'] == 'X' and self.played_positions['9'] == 'X':
+            self.winner = 0
+            self.winning_positions = "369"
+        # 159 == X
+        if self.played_positions['1'] == 'X' and self.played_positions['5'] == 'X' and self.played_positions['9'] == 'X':
+            self.winner = 0
+            self.winning_positions = "159"
+        # 357 == X
+        if self.played_positions['3'] == 'X' and self.played_positions['5'] == 'X' and self.played_positions['7'] == 'X':
+            self.winner = 0
+            self.winning_positions = "357"
+        # 123 == O
+        if self.played_positions['1'] == 'O' and self.played_positions['2'] == 'O' and self.played_positions[
+            '3'] == 'O':
+            self.winner = 1
+            self.winning_positions = "123"
+        # 456 == O
+        if self.played_positions['4'] == 'O' and self.played_positions['5'] == 'O' and self.played_positions[
+            '6'] == 'O':
+            self.winner = 1
+            self.winning_positions = "456"
+        # 789 == O
+        if self.played_positions['7'] == 'O' and self.played_positions['8'] == 'O' and self.played_positions[
+            '9'] == 'O':
+            self.winner = 1
+            self.winning_positions = "789"
+        # 147 == O
+        if self.played_positions['1'] == 'O' and self.played_positions['4'] == 'O' and self.played_positions[
+            '7'] == 'O':
+            self.winner = 1
+            self.winning_positions = "147"
+        # 258 == O
+        if self.played_positions['2'] == 'O' and self.played_positions['5'] == 'O' and self.played_positions[
+            '8'] == 'O':
+            self.winner = 1
+            self.winning_positions = "258"
+        # 369 == O
+        if self.played_positions['3'] == 'O' and self.played_positions['6'] == 'O' and self.played_positions[
+            '9'] == 'O':
+            self.winner = 1
+            self.winning_positions = "369"
+        # 159 == O
+        if self.played_positions['1'] == 'O' and self.played_positions['5'] == 'O' and self.played_positions[
+            '9'] == 'O':
+            self.winner = 1
+            self.winning_positions = "159"
+        # 357 == O
+        if self.played_positions['3'] == 'O' and self.played_positions['5'] == 'O' and self.played_positions[
+            '7'] == 'O':
+            self.winner = 1
+            self.winning_positions = "357"
+
+        # if winner
+        if self.winner == 0 or self.winner == 1:
+            self.game_over = True
+            return self.winner
+        else:
+            return False
+
+    def detect_full(self) -> bool:
+        if not self.free_positions:
+            self.game_over = True
+            return True
+        return False
+
