@@ -1,5 +1,6 @@
 import random
 import os
+import time
 from game import Game
 
 game = Game()
@@ -14,8 +15,9 @@ def main() -> None:
     game.nb_players = game.choose_number_of_players()
 
     # Ask players' names
-    for i in range(game.nb_players):
-        game.change_player_name(i)
+    if game.nb_players > 0:
+        for i in range(game.nb_players):
+            game.change_player_name(i)
     print(f"\nToday's game: {game.players_names[1]} versus {game.players_names[0]}! May the true TicTacToe Master win!")
 
     while not game.game_over:

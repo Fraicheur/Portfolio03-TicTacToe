@@ -1,6 +1,10 @@
+import random
+import time
+
 class Game:
     def __init__(self):
         self.players_names = ['CPU2', 'CPU']
+        self.players_type = ['CPU', 'CPU']
         self.players_symbols = ['X', 'O']
         self.played_positions = {
             '1': " ",
@@ -31,14 +35,20 @@ class Game:
 
     def change_player_name(self, player_id: int) -> None:
         self.players_names[player_id] = input(f"Please enter the name for player {player_id + 1}: ")
+        self.players_type[player_id] = 'Human'
 
     def make_a_move(self, current_player_id: int) -> None:
-        chosen_position = input(
-            f"{self.players_names[current_player_id]}, please choose a position in the grid above: ")
-        while chosen_position not in self.free_positions:
-            print("Incorrect selection.")
+        if self.players_type[current_player_id] == 'Human':
             chosen_position = input(
                 f"{self.players_names[current_player_id]}, please choose a position in the grid above: ")
+            while chosen_position not in self.free_positions:
+                print("Incorrect selection.")
+                chosen_position = input(
+                    f"{self.players_names[current_player_id]}, please choose a position in the grid above: ")
+        else:
+            print(f"The computer {self.players_names[current_player_id]} is thinking ...")
+            time.sleep(2)
+            chosen_position = random.choice(self.free_positions)
         self.played_positions[chosen_position] = self.players_symbols[current_player_id]
         index_of_chosen_position = self.free_positions.index(chosen_position)
         del self.free_positions[index_of_chosen_position]
